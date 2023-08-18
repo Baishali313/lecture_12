@@ -19,20 +19,25 @@
     <input type="tel" id="phone" name="phone" required><br><br>
     
     <button onclick="storeUserData()"> submit</button>
+    <ul id="listOfIttems">
+      
+
+    </ul>
 </form>
 
 <script>
     
     function onsubmit(event){
                 event.preventDefault();
+    
+
     }
-
     function storeUserData() {
-        var nameInput = document.getElementById("name");
-        var emailInput = document.getElementById("email");
-        var phoneInput = document.getElementById("phone");
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const phoneInput = document.getElementById("phone");
 
-    var user = {
+    const user = {
         name: nameInput.value,
         email: emailInput.value,
         phone: phoneInput.value
@@ -43,7 +48,25 @@
 
     // Use the email as the key and store the serialized object in local storage
     localStorage.setItem(user.email, userJSON);
-}
+    showUserElement(user);
+  }
+
+  function showUserElement(user){
+    const parentElement= document.getElementById('listOfIttems');
+    const childElement= document.createElement('li');
+    childElement.textContent= user.name+" -"+user.email+" -"+user.phone;
+
+    const deleteButton= document.createElement('input');
+    deleteButton.type='button';
+    deleteButton.value='Delete'; 
+
+    deleteButton.onclick= ()=>{
+      localStorage.removeItem(user.email);
+      parentElement.removeChild(childElement);
+    }
+    childElement.appendChild(deleteButton);
+    parentElement.appendChild(childElement);
+  }
 </script>
 
 </body>
@@ -52,6 +75,14 @@
 
 
 
+
+
   
 
 
+
+
+
+  
+
+ 
