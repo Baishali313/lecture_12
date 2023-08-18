@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Form</title>
+</head>
+<body>
+
+<h2>Contact Us</h2>
+
+<form action="#" onSubmit="onsubmit(event)">
+
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" required><br><br>
+    
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+    
+    <label for="phone">Phone:</label><br>
+    <input type="tel" id="phone" name="phone" required><br><br>
+    
+    <button onclick="storeUserData()"> submit</button>
+</form>
+
+<script>
+    
+    function onsubmit(event){
+                event.preventDefault();
+    }
+
+    function storeUserData() {
+        var nameInput = document.getElementById("name");
+        var emailInput = document.getElementById("email");
+        var phoneInput = document.getElementById("phone");
+
+    var user = {
+        name: nameInput.value,
+        email: emailInput.value,
+        phone: phoneInput.value
+    };
+
+    // Serialize the user object to a JSON string
+    var userJSON = JSON.stringify(user);
+
+    // Use the email as the key and store the serialized object in local storage
+    localStorage.setItem(user.email, userJSON);
+}
+</script>
+
+</body>
+</html>
+
+
+
+
+  
+
+
