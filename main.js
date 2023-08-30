@@ -1,70 +1,70 @@
 // Function to submit the form
 function submitForm(event) {
   event.preventDefault();
-  addNewAppointment();
+  addUserData();
 }
-var appointmentData=[];
-// Function to add a new appointment and update the list
-function addNewAppointment() {
+
+// Function to add user data and handle buttons
+function addUserData() {
   const ulElement = document.getElementById("l");
-  const name = document.getElementById("name");
-  const phone = document.getElementById("phone");
-  const email = document.getElementById("email");
+  const newAppointment = document.createElement('li');
 
-  const newAppointment = document.createElement("li");
-  newAppointment.textContent = `${name.value} - ${email.value} - ${phone.value}`;
+  // Create the list item content
+  newAppointment.textContent = `${document.getElementById("name").value} - ${document.getElementById("email").value} - ${document.getElementById("phone").value}`;
 
-  const editbtn = document.createElement("button");
-  const deletebtn = document.createElement("button");
+  ulElement.appendChild(newAppointment);
+
+  const editbtn = document.createElement('button');
+  const deletebtn = document.createElement('button')
 
   editbtn.textContent = "Edit";
-  deletebtn.textContent = "Delete";
-
+  deletebtn.textContent = 'Delete';
   newAppointment.appendChild(editbtn);
+  editbtn.classList.add('editButton');
   newAppointment.appendChild(deletebtn);
+  deletebtn.classList.add("deleteButton");
 
-  editbtn.addEventListener("click", function () {
+  editbtn.addEventListener("click", function() {
+    ulElement.removeChild(newAppointment);
     // Handle edit logic here
-    name.value = appointmentData[0];
-    email.value = appointmentData[1];
-    phone.value = appointmentData[2];
   });
 
-  deletebtn.addEventListener("click", function () {
+  deletebtn.addEventListener("click", function() {
     ulElement.removeChild(newAppointment);
   });
 
-  ulElement.appendChild(newAppointment);
+  const name = document.getElementById("name");
+  const phone = document.getElementById("phone");
+  const email = document.getElementById("email");
+  const user = {
+    NAME: name.value,
+    EMAIL: email.value,
+    PHONE: phone.value
+  };
+
+  // Make Axios POST request to save the user data
+  axios.post("https://crudcrud.com/api/ab7b2f0037474b6ea1d51fb3b3d43093/appointmentData", user)
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((err) => {
+      document.body.innerHTML += "<h4> Something went wrong </h4>";
+      console.log(err);
+    });
 }
 
 // Add event listener to the form submit button
-const submitButton = document.getElementById("addAppointment");
-submitButton.addEventListener("click", submitForm);
+//const submitButton = document.getElementById("addAppointment");
+//submitButton.addEventListener("click", submitForm);
 
-// Make Axios GET request when DOM content is loaded
-window.addEventListener("DOMContentLoaded", () => {
-  axios
-    .get("https://crudcrud.com/api/98a92aad08e94d96b4429f4a0f68458f/appointmentData")
+// Fetch and display existing appointments when DOM content is loaded
+window.addEventListener('DOMContentLoaded', () => {
+  axios.get("https://crudcrud.com/api/ab7b2f0037474b6ea1d51fb3b3d43093/appointmentData")
     .then((response) => {
       console.log(response);
-      // You can process the response and display existing appointments here
+      // Process the response and display existing appointments here
     })
     .catch((error) => {
       console.log(error);
     });
 });
-
-// Function to handle Axios POST request
-function saveAppointmentData(user) {
-  axios
-    .post(
-      "https://crudcrud.com/api/98a92aad08e94d96b4429f4a0f68458f/appointmentData",
-      user
-    )
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
