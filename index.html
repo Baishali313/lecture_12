@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Contact Form</title>
+    <title>Booking Appointments</title>
 </head>
 <body>
 
 <h2>Contact Us</h2>
 
-<form action="#" onSubmit="onsubmit(event)">
+
+<form >
+   
 
     <label for="name">Name:</label><br>
     <input type="text" id="name" name="name" required><br><br>
@@ -18,62 +20,19 @@
     <label for="phone">Phone:</label><br>
     <input type="tel" id="phone" name="phone" required><br><br>
     
-    <button onclick="storeUserData()"> submit</button>
-    <ul id="listOfIttems">
-      
+    <button id ="addAppointment" onclick="submitForm(event)"> submit</button>
+    <ul id="l">
 
     </ul>
 </form>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.0/axios.min.js"></script>
+<script src="main.js"></script>
 
-<script>
-    
-    function onsubmit(event){
-                event.preventDefault();
-    
 
-    }
-    function storeUserData() {
-    const nameInput = document.getElementById("name");
-    const emailInput = document.getElementById("email");
-    const phoneInput = document.getElementById("phone");
 
-    const user = {
-        name: nameInput.value,
-        email: emailInput.value,
-        phone: phoneInput.value
-    };
-
-    // Serialize the user object to a JSON string
-    var userJSON = JSON.stringify(user);
-
-    // Use the email as the key and store the serialized object in local storage
-    localStorage.setItem(user.email, userJSON);
-    showUserElement(user);
-  }
-
-  function showUserElement(user){
-    const parentElement= document.getElementById('listOfIttems');
-    const childElement= document.createElement('li');
-    childElement.textContent= user.name+" -"+user.email+" -"+user.phone;
-
-    const deleteButton= document.createElement('input');
-    deleteButton.type='button';
-    deleteButton.value='Delete'; 
-
-    deleteButton.onclick= ()=>{
-      localStorage.removeItem(user.email);
-      parentElement.removeChild(childElement);
-    }
-    childElement.appendChild(deleteButton);
-    parentElement.appendChild(childElement);
-  }
-</script>
 
 </body>
 </html>
-
-
-
 
 
 
