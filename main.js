@@ -28,7 +28,7 @@ function addAppointmentToList(appointment) {
     ulElement.removeChild(newAppointment);
 
     // Make Axios DELETE request to remove the appointment data
-    axios.delete(`https://crudcrud.com/api/ab7b2f0037474b6ea1d51fb3b3d43093/appointmentData/${appointment._id}`)
+    axios.delete(`https://crudcrud.com/api/1209372e6d0a4ffb9b64af7974afa3f7/appointmentData/${appointment._id}`)
       .then((response) => {
         console.log(response);
       })
@@ -38,9 +38,40 @@ function addAppointmentToList(appointment) {
   });
 }
 
+// Function to handle form submission
+function submitForm(event) {
+  event.preventDefault(); // Prevent the default form submission behavior
+
+  const name = document.getElementById("name");
+  const phone = document.getElementById("phone");
+  const email = document.getElementById("email");
+
+  var user = {
+    NAME: name.value,
+    EMAIL: email.value,
+    PHONE: phone.value
+  };
+
+  axios.post('https://crudcrud.com/api/1209372e6d0a4ffb9b64af7974afa3f7/appointmentData', user)
+    .then((response) => {
+      console.log(response);
+      // If successful, add the new appointment to the list
+      addAppointmentToList(user);
+    })
+    .catch((err) => {
+      // Display error message
+      document.body.innerHTML += "<h4> Something went wrong </h4>";
+      console.log(err);
+    });
+
+  }
+// Attach submitForm function to the form submission
+//const submitButton = document.getElementById("addAppointment");
+//submitButton.addEventListener("click", submitForm);
+
 // Fetch and display existing appointments when DOM content is loaded
 window.addEventListener('DOMContentLoaded', () => {
-  axios.get("https://crudcrud.com/api/ab7b2f0037474b6ea1d51fb3b3d43093/appointmentData")
+  axios.get("https://crudcrud.com/api/1209372e6d0a4ffb9b64af7974afa3f7/appointmentData")
     .then((response) => {
       console.log(response);
       // Process the response and display existing appointments here
